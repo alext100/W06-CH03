@@ -1,21 +1,21 @@
 const express = require("express");
-const Prueba = require("../../database/models/pregunta");
+const Things = require("../../database/models/pregunta");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const preguntas = await Prueba.find();
+router.get("/things", async (req, res) => {
+  const preguntas = await Things.find();
   res.json(preguntas);
 });
 
-router.get("/pregunta/:id", async (req, res, next) => {
+router.get("/things/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const searchedQuestion = await Prueba.findById(id);
+    const searchedQuestion = await Things.findById(id);
     if (searchedQuestion) {
       res.json(searchedQuestion);
     } else {
-      const error = new Error("Pet not found");
+      const error = new Error("Thing not found");
       error.code = 404;
       throw error;
     }
@@ -34,7 +34,7 @@ router.post(
   async (req, res, next) => {
     try {
       const questions = req.body;
-      const newQuestion = await Prueba.create(questions);
+      const newQuestion = await Things.create(questions);
       res.json(newQuestion);
     } catch (error) {
       error.code = 400;
