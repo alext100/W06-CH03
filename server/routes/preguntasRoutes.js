@@ -56,7 +56,29 @@ router.delete(
       res.json(thigToDelete);
     } catch (error) {
       error.code = 500;
-      error.message = "Error on Delete Thing!";
+      error.message = "Error on DELETE Thing!";
+      next(error);
+    }
+  }
+);
+
+router.put(
+  "/things/:id",
+  async (req, res, next) => {
+    console.log("Están modificando una Thing with id: ", req.params.id);
+    next();
+  },
+  async (req, res, next) => {
+    try {
+      const question = req.body;
+      const newQuestion = await Things.findByIdAndUpdate(
+        req.params.id,
+        question
+      );
+      res.json(newQuestion);
+    } catch (error) {
+      error.code = 400;
+      error.message = "Error on PUT new Thing!";
       next(error);
     }
   }
