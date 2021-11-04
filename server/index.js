@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const chalk = require("chalk");
 const debug = require("debug")("things:server");
+const preguntasRoutes = require("./routes/preguntasRoutes");
 
 const app = express();
 
@@ -25,5 +26,7 @@ app.use((req, res, next) => {
   debug("El segundo middleware responde!");
   next();
 });
+
+app.use("/", preguntasRoutes);
 
 module.exports = initializeServer;
