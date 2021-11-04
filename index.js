@@ -1,12 +1,13 @@
 require("dotenv").config();
-// const inquirer = require("inquirer");
+const inquirer = require("inquirer");
 require("./database/index");
+const mongodbConnect = require("./database/index");
 
 const initializeServer = require("./server/index");
 
 const port = process.env.SERVER_PORT || 5000;
 
-/* (async () => {
+(async () => {
   const answers = await inquirer.prompt([
     {
       name: "puerto",
@@ -15,17 +16,17 @@ const port = process.env.SERVER_PORT || 5000;
       default: "4000",
     },
     {
-      name: "databases",
+      name: "database",
       type: "list",
       message: "¿Qué base de datos quieres usar?",
       choices: [
         {
           name: "PruebasDB",
-          value: "Pruebas",
+          value: "mongoDBPruebas",
         },
         {
           name: "ProduccionDB",
-          value: "Produccion",
+          value: "mongoDBProduction",
         },
       ],
       default: "Pruebas",
@@ -49,6 +50,7 @@ const port = process.env.SERVER_PORT || 5000;
     },
   ]);
   console.log(answers);
-})(); */
-
-initializeServer(port);
+  const userPort = answers.puerto;
+  initializeServer(userPort || port);
+  mongodbConnect(answers.database);
+})();
