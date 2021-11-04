@@ -25,4 +25,23 @@ router.get("/pregunta/:id", async (req, res, next) => {
   }
 });
 
+router.post(
+  "/new",
+  (req, res, next) => {
+    console.log("Están creando una pregunta!");
+    next();
+  },
+  async (req, res, next) => {
+    try {
+      const questions = req.body;
+      const newQuestion = await Prueba.create(questions);
+      res.json(newQuestion);
+    } catch (error) {
+      error.code = 400;
+      error.message = "Error in POST new question!";
+      next(error);
+    }
+  }
+);
+
 module.exports = router;
